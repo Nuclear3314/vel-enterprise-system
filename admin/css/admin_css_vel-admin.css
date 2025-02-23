@@ -1,0 +1,14 @@
+/* Admin CSS */
+.vel-admin-wrap {
+    padding: 20px;
+}
+
+.vel-admin-header {
+    margin-bottom: 20px;
+}
+
+.vel-admin-content {
+    background: #fff;
+    padding: 20px;
+    border-radius: 5px;
+}
