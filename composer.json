@@ -1,0 +1,23 @@
+{
+    "name": "nuclear3314/vel-enterprise-system",
+    "description": "Enterprise level system with security, AI and logistics",
+    "type": "wordpress-plugin",
+    "license": "GPL-2.0-or-later",
+    "authors": [
+        {
+            "name": "Nuclear3314",
+            "email": "nuclear3314@example.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.4"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "VEL\\": "includes/"
+        }
+    }
+}
