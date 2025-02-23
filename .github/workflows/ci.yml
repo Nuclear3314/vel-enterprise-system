@@ -7,8 +7,14 @@ on:
     branches: [ main ]
 
 jobs:
-  build:
+  php-tests:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php-version: ['7.4', '8.0', '8.1']
+        wordpress-version: ['latest', '5.8']
+
+    name: PHP ${{ matrix.php-version }} - WP ${{ matrix.wordpress-version }}
 
     steps:
     - uses: actions/checkout@v2
@@ -16,10 +22,64 @@ jobs:
     - name: Setup PHP
       uses: shivammathur/setup-php@v2
       with:
-        php-version: '7.4'
-        
+        php-version: ${{ matrix.php-version }}
+        extensions: mbstring, intl, zip, pdo_mysql
+        coverage: xdebug
+
     - name: Validate composer.json
       run: composer validate --strict
 
+    - name: Cache Composer packages
+      id: composer-cache
+      uses: actions/cache@v2
+      with:
+        path: vendor
+        key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-php-
+
     - name: Install dependencies
       run: composer install --prefer-dist --no-progress
+
+    - name: Run test suite
+      run: composer run-script test
+
+  js-tests:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [14.x, 16.x]
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v2
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Run JS tests
+      run: npm test
+
+    - name: Run JS linting
+      run: npm run lint
+
+  deploy:
+    needs: [php-tests, js-tests]
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: WordPress Plugin Deploy
+      uses: 10up/action-wordpress-plugin-deploy@stable
+      env:
+        SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
+        SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
+        SLUG: vel-enterprise-system
