@@ -1,0 +1,400 @@
+/**
+ * VEL Enterprise System Admin Styles
+ *
+ * @package VEL_Enterprise_System
+ * @since 1.0.0
+ * @version 1.0.0
+ * @author Nuclear3314
+ * @copyright 2025 Nuclear3314
+ * @last_modified 2025-02-23 15:19:24
+ */
+
+/* 全局設置
+---------------------------------------------- */
+.vel-admin-wrap {
+    margin: 20px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+}
+
+/* 版面佈局
+---------------------------------------------- */
+.vel-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+.vel-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    margin: 20px 0;
+}
+
+/* 頭部樣式
+---------------------------------------------- */
+.vel-header {
+    background: #fff;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.vel-header h1 {
+    margin: 0;
+    color: #23282d;
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.vel-header-actions {
+    margin-top: 15px;
+    display: flex;
+    gap: 10px;
+}
+
+/* 頁籤樣式
+---------------------------------------------- */
+.vel-tabs {
+    background: #fff;
+    border-radius: 4px;
+    margin-bottom: 20px;
+}
+
+.vel-tab-list {
+    display: flex;
+    border-bottom: 1px solid #e2e4e7;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.vel-tab {
+    padding: 12px 20px;
+    margin: 0;
+    color: #555;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.vel-tab:hover {
+    color: #0073aa;
+}
+
+.vel-tab.active {
+    color: #0073aa;
+    border-bottom-color: #0073aa;
+}
+
+.vel-tab-content {
+    padding: 20px;
+    display: none;
+}
+
+.vel-tab-content.active {
+    display: block;
+}
+
+/* 卡片樣式
+---------------------------------------------- */
+.vel-card {
+    background: #fff;
+    border-radius: 4px;
+    padding: 20px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.vel-card-header {
+    margin: -20px -20px 20px;
+    padding: 15px 20px;
+    border-bottom: 1px solid #e2e4e7;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.vel-card-title {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.vel-card-content {
+    position: relative;
+    min-height: 100px;
+}
+
+/* 表單樣式
+---------------------------------------------- */
+.vel-form-group {
+    margin-bottom: 20px;
+}
+
+.vel-form-label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+.vel-form-control {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    line-height: 1.5;
+    transition: border-color 0.3s ease;
+}
+
+.vel-form-control:focus {
+    border-color: #0073aa;
+    outline: none;
+    box-shadow: 0 0 0 1px #0073aa;
+}
+
+.vel-form-control.vel-error {
+    border-color: #dc3232;
+}
+
+.vel-form-help {
+    margin-top: 5px;
+    font-size: 12px;
+    color: #666;
+}
+
+/* 按鈕樣式
+---------------------------------------------- */
+.vel-button {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.vel-button-primary {
+    background: #0073aa;
+    color: #fff;
+}
+
+.vel-button-primary:hover {
+    background: #006291;
+}
+
+.vel-button-secondary {
+    background: #f1f1f1;
+    color: #23282d;
+}
+
+.vel-button-secondary:hover {
+    background: #e2e4e7;
+}
+
+.vel-button-danger {
+    background: #dc3232;
+    color: #fff;
+}
+
+.vel-button-danger:hover {
+    background: #c92424;
+}
+
+/* 通知樣式
+---------------------------------------------- */
+.vel-notifications-container {
+    position: fixed;
+    top: 32px;
+    right: 20px;
+    z-index: 9999;
+}
+
+.vel-notification {
+    background: #fff;
+    border-radius: 4px;
+    padding: 15px 20px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transform: translateX(120%);
+    transition: transform 0.3s ease;
+}
+
+.vel-notification.vel-show {
+    transform: translateX(0);
+}
+
+.vel-notification.vel-success {
+    border-left: 4px solid #46b450;
+}
+
+.vel-notification.vel-error {
+    border-left: 4px solid #dc3232;
+}
+
+/* 模態框樣式
+---------------------------------------------- */
+.vel-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 100000;
+}
+
+.vel-modal.active {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.vel-modal-content {
+    background: #fff;
+    border-radius: 4px;
+    width: 90%;
+    max-width: 600px;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+}
+
+.vel-modal-header {
+    padding: 15px 20px;
+    border-bottom: 1px solid #e2e4e7;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.vel-modal-title {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.vel-modal-close {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    color: #666;
+}
+
+.vel-modal-body {
+    padding: 20px;
+}
+
+.vel-modal-footer {
+    padding: 15px 20px;
+    border-top: 1px solid #e2e4e7;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+/* 分析儀表板樣式
+---------------------------------------------- */
+.vel-stats-card {
+    text-align: center;
+    padding: 20px;
+}
+
+.vel-stats-value {
+    font-size: 24px;
+    font-weight: 600;
+    color: #23282d;
+    margin: 10px 0;
+}
+
+.vel-stats-label {
+    color: #666;
+    font-size: 14px;
+}
+
+.vel-trend {
+    display: inline-flex;
+    align-items: center;
+    font-size: 12px;
+    padding: 2px 6px;
+    border-radius: 3px;
+    margin-left: 5px;
+}
+
+.vel-trend-up {
+    background: #e6f4ea;
+    color: #137333;
+}
+
+.vel-trend-down {
+    background: #fce8e6;
+    color: #c5221f;
+}
+
+.vel-chart-container {
+    position: relative;
+    height: 300px;
+    margin-bottom: 20px;
+}
+
+/* 加載器樣式
+---------------------------------------------- */
+.vel-loader {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.vel-loader::after {
+    content: '';
+    width: 30px;
+    height: 30px;
+    border: 2px solid #0073aa;
+    border-radius: 50%;
+    border-top-color: transparent;
+    animation: vel-spin 1s linear infinite;
+}
+
+@keyframes vel-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* 響應式設計
+---------------------------------------------- */
+@media screen and (max-width: 782px) {
+    .vel-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .vel-header-actions {
+        flex-direction: column;
+    }
+
+    .vel-tab-list {
+        flex-wrap: wrap;
+    }
+
+    .vel-tab {
+        flex: 1 1 auto;
+        text-align: center;
+    }
+
+    .vel-modal-content {
+        width: 95%;
+        margin: 10px;
+    }
+}
