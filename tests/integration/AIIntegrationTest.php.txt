@@ -1,0 +1,60 @@
+<?php
+/**
+ * AI 整合測試
+ *
+ * @package VEL_Enterprise_System
+ * @since 1.0.0
+ * @version 1.0.0
+ * @author Nuclear3314
+ * @copyright 2025 Nuclear3314
+ * @last_modified 2025-02-24 03:15:35
+ */
+
+use PHPUnit\Framework\TestCase;
+
+class AIIntegrationTest extends TestCase {
+    protected $model;
+    protected $trainer;
+    protected $predictor;
+
+    protected function setUp(): void {
+        $this->model = new \VEL\AI\Model(null, [
+            'name' => 'Test Model',
+            'type' => 'linear',
+            'features' => ['feature1', 'feature2'],
+            'target' => 'target'
+        ]);
+
+        $this->model->save();
+        $this->trainer = new \VEL\AI\Trainer($this->model);
+        $this->predictor = new \VEL\AI\Predictor($this->model);
+    }
+
+    public function testTrainingAndPrediction() {
+        $trainingData = [
+            ['feature1' => 1.5, 'feature2' => 3.2, 'target' => 10],
+            ['feature1' => 2.0, 'feature2' => 4.1, 'target' => 15]
+        ];
+
+        $this->assertTrue($this->trainer->prepare_data($trainingData));
+        $this->assertTrue($this->trainer->train());
+
+        $testData = [
+            'feature1' => 1.8,
+            'feature2' => 3.8
+        ];
+
+        $result = $this->predictor->predict($testData);
+        $this->assertArrayHasKey('prediction', $result);
+        $this->assertIsFloat($result['prediction']);
+    }
+
+    public function testInvalidTrainingData() {
+        $trainingData = [
+            ['invalid_feature' => 1.5, 'target' => 10]
+        ];
+
+        $this->expectException(\Exception::class);
+        $this->trainer->prepare_data($trainingData);
+    }
+}
