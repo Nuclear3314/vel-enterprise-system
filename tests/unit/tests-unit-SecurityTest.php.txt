@@ -1,0 +1,53 @@
+<?php
+/**
+ * 安全模組測試
+ *
+ * @package VEL_Enterprise_System
+ * @since 1.0.0
+ * @version 1.0.0
+ * @author Nuclear3314
+ * @copyright 2025 Nuclear3314
+ * @last_modified 2025-02-24 03:15:35
+ */
+
+use PHPUnit\Framework\TestCase;
+
+class SecurityTest extends TestCase {
+    protected $security;
+
+    protected function setUp(): void {
+        $this->security = new \VEL\Security();
+    }
+
+    public function testApiKeyValidation() {
+        $validKey = 'valid_api_key';
+        $invalidKey = 'invalid_api_key';
+
+        $this->assertTrue($this->security->validate_api_key($validKey));
+        $this->assertFalse($this->security->validate_api_key($invalidKey));
+    }
+
+    public function testSignatureVerification() {
+        $request = new \WP_REST_Request('POST', '/test-endpoint');
+        $request->set_header('X-VEL-API-Key', 'valid_api_key');
+        $request->set_header('X-VEL-Timestamp', time());
+        $request->set_body(json_encode(['data' => 'test']));
+
+        $signature = $this->security->generate_signature($request);
+        $request->set_header('X-VEL-Signature', $signature);
+
+        $this->assertTrue($this->security->verify_signature($request, $signature));
+    }
+
+    public function testInvalidSignature() {
+        $request = new \WP_REST_Request('POST', '/test-endpoint');
+        $request->set_header('X-VEL-API-Key', 'valid_api_key');
+        $request->set_header('X-VEL-Timestamp', time());
+        $request->set_body(json_encode(['data' => 'test']));
+
+        $invalidSignature = 'invalid_signature';
+        $request->set_header('X-VEL-Signature', $invalidSignature);
+
+        $this->assertFalse($this->security->verify_signature($request, $invalidSignature));
+    }
+}
