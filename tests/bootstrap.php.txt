@@ -1,0 +1,20 @@
+<?php
+/**
+ * 測試啟動文件
+ *
+ * @package VEL_Enterprise_System
+ * @since 1.0.0
+ * @version 1.0.0
+ * @author Nuclear3314
+ * @copyright 2025 Nuclear3314
+ * @last_modified 2025-02-24 03:15:35
+ */
+
+// 載入 Composer 自動加載器
+require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+// 載入 WP 測試環境
+require_once dirname(__DIR__) . '/wp-tests-config.php';
+
+// 初始化 WP 測試環境
+require_once getenv('WP_TESTS_DIR') . '/includes/bootstrap.php';
