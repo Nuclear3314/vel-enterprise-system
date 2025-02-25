@@ -1,0 +1,12 @@
+assets/
+├── css/
+│   ├── vel-admin.css
+│   └── vel-public.css
+├── js/
+│   ├── vel-admin.js
+│   └── vel-public.js
+├── images/
+│   ├── logo.svg
+│   ├── icon-32x32.png
+│   └── banner-1544x500.png
+└── index.php
