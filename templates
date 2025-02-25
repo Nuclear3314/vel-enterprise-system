@@ -1,1 +1,9 @@
-
+templates/
+├── admin/
+│   ├── dashboard.php
+│   ├── settings.php
+│   └── reports.php
+├── public/
+│   ├── analytics.php
+│   └── status.php
+└── index.php
