@@ -90,6 +90,126 @@ class VEL_Security {
         return $defense_result;
     }
 
+/**
+ * 獲取註冊的子站點列表
+ *
+ * @return array
+ */
+private function get_registered_subsites() {
+    global $wpdb;
+    $table = $wpdb->prefix . 'vel_subsites';
+    
+    $sites = $wpdb->get_results("SELECT * FROM {$table} WHERE status = 'active'", ARRAY_A);
+    return $sites ?: array();
+}
+
+/**
+ * 設置防禦通道
+ */
+private function setup_defense_channels() {
+    foreach ($this->subsites as $subsite) {
+        $this->defense_network[$subsite['id']] = array(
+            'status' => 'connected',
+            'last_sync' => current_time('mysql'),
+            'channel' => $this->create_defense_channel($subsite)
+        );
+    }
+}
+
+/**
+ * 創建防禦通道
+ *
+ * @param array $subsite
+ * @return array
+ */
+private function create_defense_channel($subsite) {
+    return array(
+        'token' => $this->generate_channel_token($subsite),
+        'endpoint' => $subsite['api_url'] . '/security/channel',
+        'encryption_key' => $this->generate_encryption_key($subsite)
+    );
+}
+
+/**
+ * 生成安全令牌
+ *
+ * @param array $subsite
+ * @return string
+ */
+private function generate_security_token($subsite) {
+    return wp_hash($subsite['secret_key'] . time(), 'secure_auth');
+}
+
+/**
+ * 判斷是否允許反制措施
+ *
+ * @return bool
+ */
+private function is_counter_measure_allowed() {
+    return get_option('vel_counter_measures_enabled', true);
+}
+
+/**
+ * 評估DDoS威脅等級
+ *
+ * @param array $attack_data
+ * @return int
+ */
+private function assess_ddos_threat($attack_data) {
+    $requests_per_second = $attack_data['requests_per_second'] ?? 0;
+    $concurrent_connections = $attack_data['concurrent_connections'] ?? 0;
+    
+    if ($requests_per_second > 1000 || $concurrent_connections > 500) {
+        return 5;
+    } elseif ($requests_per_second > 500 || $concurrent_connections > 200) {
+        return 4;
+    } elseif ($requests_per_second > 200 || $concurrent_connections > 100) {
+        return 3;
+    }
+    
+    return 2;
+}
+
+/**
+ * 評估爬蟲威脅等級
+ *
+ * @param array $attack_data
+ * @return int
+ */
+private function assess_crawler_threat($attack_data) {
+    $request_frequency = $attack_data['request_frequency'] ?? 0;
+    $pattern_match = $attack_data['pattern_match'] ?? false;
+    
+    if ($request_frequency > 100 && $pattern_match) {
+        return 4;
+    } elseif ($request_frequency > 50) {
+        return 3;
+    }
+    
+    return 2;
+}
+
+/**
+ * 判斷是否需要反制
+ *
+ * @param array $attack_data
+ * @return bool
+ */
+private function should_counter_attack($attack_data) {
+    // 檢查白名單
+    if ($this->is_whitelisted($attack_data['source_ip'])) {
+        return false;
+    }
+    
+    // 檢查攻擊持續時間
+    $duration = $attack_data['duration'] ?? 0;
+    if ($duration < 300) { // 5分鐘
+        return false;
+    }
+    
+    return true;
+}
+    
     /**
      * 評估威脅等級
      *
@@ -249,21 +369,58 @@ class VEL_Security {
     }
 
     /**
+     * 應用響應延遲
+     *
+     * @param string $ip
+     */
+    private function apply_response_delay($ip) {
+        sleep(rand(1, 5));
+     }
+
+    /**
+     * 增加資源使用
+     *
+     * @param string $ip
+     */
+private function increase_resource_usage($ip) {
+    // 實現CPU密集運算
+    for ($i = 0; $i < 1000000; $i++) {
+        hash('sha256', $ip . $i);
+    }
+}
+
+/**
+ * 發送混淆數據
+ *
+ * @param string $ip
+ */
+private function send_confusion_data($ip) {
+    // 生成隨機混淆數據
+    $data = random_bytes(1024 * 1024); // 1MB
+    echo base64_encode($data);
+}
+    
+    /**
      * 發送防禦警報
      *
      * @param array $subsite
      * @param array $attack_data
      * @return bool
      */
-    private function send_defense_alert($subsite, $attack_data) {
-        $response = wp_remote_post($subsite['api_url'] . '/security/alert', array(
-            'body' => json_encode($attack_data),
-            'headers' => array(
-                'Content-Type' => 'application/json',
-                'X-VEL-Security-Token' => $this->generate_security_token($subsite)
-            ),
-            'timeout' => 15
-        ));
+private function send_defense_alert($subsite, $attack_data) {
+    // 添加加密處理
+    $encrypted_data = $this->encrypt_alert_data($attack_data, $subsite);
+    
+    $response = wp_remote_post($subsite['api_url'] . '/security/alert', array(
+        'body' => $encrypted_data,
+        'headers' => array(
+            'Content-Type' => 'application/json',
+            'X-VEL-Security-Token' => $this->generate_security_token($subsite),
+            'X-VEL-Timestamp' => time(),
+            'X-VEL-Signature' => $this->generate_request_signature($encrypted_data, $subsite)
+        ),
+        'timeout' => 15
+    ));
 
         if (is_wp_error($response)) {
             $this->logger->log('security', 'Failed to send alert', Logger::ERROR, array(
