@@ -23,6 +23,28 @@ class VEL_REST_Controller extends WP_REST_Controller {
      */
     private $api;
 
+class VEL_REST_Controller extends WP_REST_Controller {
+    /**
+     * 系統代號常量
+     */
+    const DEFENSE_SYSTEMS = array(
+        'MICHAEL', 'GABRIEL', 'RAPHAEL', 'URIEL',
+        'ABADDON', 'SAMAEL', 'AVENGER'
+    );
+
+    /**
+     * 命名空間
+     */
+    protected $namespace = 'vel/v1';
+
+    /**
+     * 構造函數
+     */
+    public function __construct() {
+        $this->ids = new VEL_IDS();
+        add_action('rest_api_init', array($this, 'register_routes'));
+    }
+    
     /**
      * Constructor
      */
@@ -128,6 +150,80 @@ class VEL_REST_Controller extends WP_REST_Controller {
                 'callback' => array($this, 'update_settings'),
                 'permission_callback' => array($this, 'update_settings_permissions_check'),
                 'args' => $this->get_settings_args()
+            )
+        ));
+      }
+
+    /**
+     * 註冊路由
+     */
+    public function register_routes() {
+        // 威脅偵測與報告端點
+        register_rest_route($this->namespace, '/threat/detect', array(
+            array(
+                'methods' => WP_REST_Server::CREATABLE,
+                'callback' => array($this, 'detect_threat'),
+                'permission_callback' => array($this, 'check_security_permissions'),
+                'args' => $this->get_threat_detection_args()
+            )
+        ));
+
+        // 聯合反擊協調端點
+        register_rest_route($this->namespace, '/countermeasure/coordinate', array(
+            array(
+                'methods' => WP_REST_Server::CREATABLE,
+                'callback' => array($this, 'coordinate_countermeasure'),
+                'permission_callback' => array($this, 'check_security_permissions'),
+                'args' => $this->get_countermeasure_args()
+            )
+        ));
+
+        // 防禦系統狀態端點
+        register_rest_route($this->namespace, '/defense/status', array(
+            array(
+                'methods' => WP_REST_Server::READABLE,
+                'callback' => array($this, 'get_defense_status'),
+                'permission_callback' => array($this, 'check_security_permissions')
+            )
+        ));
+
+        // 蜜罐系統管理端點
+        register_rest_route($this->namespace, '/honeypot/manage', array(
+            array(
+                'methods' => WP_REST_Server::CREATABLE,
+                'callback' => array($this, 'manage_honeypot'),
+                'permission_callback' => array($this, 'check_security_permissions'),
+                'args' => $this->get_honeypot_args()
+            )
+        ));
+
+        // 全球黑名單同步端點
+        register_rest_route($this->namespace, '/blacklist/sync', array(
+            array(
+                'methods' => WP_REST_Server::CREATABLE,
+                'callback' => array($this, 'sync_global_blacklist'),
+                'permission_callback' => array($this, 'check_security_permissions'),
+                'args' => $this->get_blacklist_args()
+            )
+        ));
+
+        // 威脅情報共享端點
+        register_rest_route($this->namespace, '/intelligence/share', array(
+            array(
+                'methods' => WP_REST_Server::CREATABLE,
+                'callback' => array($this, 'share_threat_intelligence'),
+                'permission_callback' => array($this, 'check_security_permissions'),
+                'args' => $this->get_intelligence_args()
+            )
+        ));
+
+        // Level 7 威脅處理端點
+        register_rest_route($this->namespace, '/threat/level-seven', array(
+            array(
+                'methods' => WP_REST_Server::CREATABLE,
+                'callback' => array($this, 'handle_level_seven_threat'),
+                'permission_callback' => array($this, 'check_security_permissions'),
+                'args' => $this->get_level_seven_args()
             )
         ));
     }
@@ -259,8 +355,85 @@ class VEL_REST_Controller extends WP_REST_Controller {
                 array('status' => 500)
             );
         }
+      }
+
+    /**
+     * 處理威脅偵測
+     */
+    public function detect_threat($request) {
+        $params = $request->get_params();
+        
+        try {
+            $result = $this->ids->analyze_threat($params);
+            
+            if ($result['threat_level'] >= 7) {
+                $this->ids->handle_level_seven_threat($result);
+            }
+            
+            return $this->format_response($result);
+        } catch (\Exception $e) {
+            return new WP_Error(
+                'threat_detection_failed',
+                $e->getMessage(),
+                array('status' => 500)
+            );
+        }
     }
 
+    /**
+     * 協調聯合反擊
+     */
+    public function coordinate_countermeasure($request) {
+        $params = $request->get_params();
+        
+        try {
+            $result = $this->ids->coordinate_joint_countermeasure($params);
+            return $this->format_response($result);
+        } catch (\Exception $e) {
+            return new WP_Error(
+                'countermeasure_failed',
+                $e->getMessage(),
+                array('status' => 500)
+            );
+        }
+    }
+
+    /**
+     * 獲取防禦系統狀態
+     */
+    public function get_defense_status($request) {
+        try {
+            $status = array();
+            foreach (self::DEFENSE_SYSTEMS as $system) {
+                $status[$system] = $this->ids->get_system_status($system);
+            }
+            return $this->format_response($status);
+        } catch (\Exception $e) {
+            return new WP_Error(
+                'status_check_failed',
+                $e->getMessage(),
+                array('status' => 500)
+            );
+        }
+    }
+
+    /**
+     * 管理蜜罐系統
+     */
+    public function manage_honeypot($request) {
+        $params = $request->get_params();
+        
+        try {
+            $result = $this->ids->manage_honeypot_system($params);
+            return $this->format_response($result);
+        } catch (\Exception $e) {
+            return new WP_Error(
+                'honeypot_management_failed',
+                $e->getMessage(),
+                array('status' => 500)
+            );
+        }
+    }
     /**
      * 獲取單個模型
      *
