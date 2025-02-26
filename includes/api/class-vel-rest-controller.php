@@ -1,3 +1,137 @@
+<?php
+/**
+ * REST API Controller Class
+ *
+ * @package     VEL
+ * @subpackage  VEL/includes/api
+ * @author      Nuclear3314
+ * @copyright   2025 Nuclear3314
+ * @license     GPL v2 or later
+ * @version     1.0.0
+ * @created     2025-02-25 15:49:40
+ */
+
+if (!defined('ABSPATH')) {
+    exit('Direct access not allowed.');
+}
+
+class VEL_REST_Controller extends WP_REST_Controller {
+    /**
+     * API 實例
+     *
+     * @var API
+     */
+    private $api;
+
+    /**
+     * Constructor
+     */
+    public function __construct() {
+        $this->namespace = VEL_API_NAMESPACE;
+        $this->rest_base = 'v1';
+        $this->api = new API();
+    }
+
+    /**
+     * Register routes
+     */
+    public function register_routes() {
+        // 預測相關端點
+        register_rest_route($this->namespace, '/predictions', array(
+            array(
+                'methods' => WP_REST_Server::READABLE,
+                'callback' => array($this, 'get_predictions'),
+                'permission_callback' => array($this, 'get_predictions_permissions_check'),
+                'args' => $this->get_collection_args()
+            ),
+            array(
+                'methods' => WP_REST_Server::CREATABLE,
+                'callback' => array($this, 'create_prediction'),
+                'permission_callback' => array($this, 'create_prediction_permissions_check'),
+                'args' => $this->get_prediction_args()
+            )
+        ));
+
+        // 模型相關端點
+        register_rest_route($this->namespace, '/models', array(
+            array(
+                'methods' => WP_REST_Server::READABLE,
+                'callback' => array($this, 'get_models'),
+                'permission_callback' => array($this, 'get_models_permissions_check'),
+                'args' => $this->get_collection_args()
+            ),
+            array(
+                'methods' => WP_REST_Server::CREATABLE,
+                'callback' => array($this, 'create_model'),
+                'permission_callback' => array($this, 'create_model_permissions_check'),
+                'args' => $this->get_model_args()
+            )
+        ));
+
+        register_rest_route($this->namespace, '/models/(?P<id>[\d]+)', array(
+            array(
+                'methods' => WP_REST_Server::READABLE,
+                'callback' => array($this, 'get_model'),
+                'permission_callback' => array($this, 'get_model_permissions_check')
+            ),
+            array(
+                'methods' => WP_REST_Server::EDITABLE,
+                'callback' => array($this, 'update_model'),
+                'permission_callback' => array($this, 'update_model_permissions_check'),
+                'args' => $this->get_model_args()
+            ),
+            array(
+                'methods' => WP_REST_Server::DELETABLE,
+                'callback' => array($this, 'delete_model'),
+                'permission_callback' => array($this, 'delete_model_permissions_check')
+            )
+        ));
+
+        // 分析相關端點
+        register_rest_route($this->namespace, '/analysis', array(
+            array(
+                'methods' => WP_REST_Server::CREATABLE,
+                'callback' => array($this, 'create_analysis'),
+                'permission_callback' => array($this, 'create_analysis_permissions_check'),
+                'args' => $this->get_analysis_args()
+            )
+        ));
+
+        // 指標相關端點
+        register_rest_route($this->namespace, '/metrics', array(
+            array(
+                'methods' => WP_REST_Server::READABLE,
+                'callback' => array($this, 'get_metrics'),
+                'permission_callback' => array($this, 'get_metrics_permissions_check'),
+                'args' => $this->get_metrics_args()
+            )
+        ));
+
+        // 安全相關端點
+        register_rest_route($this->namespace, '/security/status', array(
+            array(
+                'methods' => WP_REST_Server::READABLE,
+                'callback' => array($this, 'get_security_status'),
+                'permission_callback' => array($this, 'get_security_status_permissions_check')
+            )
+        ));
+
+        // 設置相關端點
+        register_rest_route($this->namespace, '/settings', array(
+            array(
+                'methods' => WP_REST_Server::READABLE,
+                'callback' => array($this, 'get_settings'),
+                'permission_callback' => array($this, 'get_settings_permissions_check')
+            ),
+            array(
+                'methods' => WP_REST_Server::EDITABLE,
+                'callback' => array($this, 'update_settings'),
+                'permission_callback' => array($this, 'update_settings_permissions_check'),
+                'args' => $this->get_settings_args()
+            )
+        ));
+    }
+
     /**
      * 獲取預測列表
      *
@@ -321,6 +455,27 @@
     }
 
     /**
+     * 獲取安全狀態
+     *
+     * @param WP_REST_Request $request
+     * @return WP_REST_Response|WP_Error
+     */
+    public function get_security_status($request) {
+        try {
+            $security = new VEL_Security();
+            $status = $security->get_status();
+
+            return $this->api->format_response($status);
+        } catch (\Exception $e) {
+            return new WP_Error(
+                'security_status_failed',
+                $e->getMessage(),
+                array('status' => 500)
+            );
+        }
+    }
+
+    /**
      * 獲取參數定義
      */
     private function get_collection_args() {
@@ -416,6 +571,30 @@
                 'type' => 'string',
                 'format' => 'date',
                 'description' => __('End date for metrics (YYYY-MM-DD).', 'vel-enterprise-system'),
+            ),
+        );
+    }
+
+    /**
+     * 獲取設置參數定義
+     */
+    private function get_settings_args() {
+        return array(
+            'security' => array(
+                'type' => 'object',
+                'description' => __('Security settings.', 'vel-enterprise-system'),
+            ),
+            'ai' => array(
+                'type' => 'object',
+                'description' => __('AI settings.', 'vel-enterprise-system'),
+            ),
+            'analytics' => array(
+                'type' => 'object',
+                'description' => __('Analytics settings.', 'vel-enterprise-system'),
+            ),
+            'logging' => array(
+                'type' => 'object',
+                'description' => __('Logging settings.', 'vel-enterprise-system'),
             ),
         );
     }
