@@ -12,6 +12,104 @@ lass VEL_IDS {
         'AVENGER'    => 'legal_countermeasure'    // 法律反制
     );
 
+/**
+ * 協調聯合反擊系統
+ */
+private function coordinate_joint_countermeasure($attack_data) {
+    $participating_sites = $this->get_participating_sites();
+    $joint_attack_plan = $this->create_joint_attack_plan($attack_data);
+    
+    foreach ($participating_sites as $site) {
+        $this->assign_countermeasure_role($site, $joint_attack_plan);
+    }
+    
+    return $this->execute_joint_countermeasure($joint_attack_plan);
+}
+
+/**
+ * 分配聯合反擊角色
+ */
+private function assign_countermeasure_role($site, $plan) {
+    $role = array(
+        'site_id' => $site['id'],
+        'attack_vector' => $this->determine_attack_vector($site),
+        'resource_allocation' => $this->calculate_resource_allocation($site),
+        'timing' => $this->synchronize_attack_timing($site)
+    );
+    
+    return $this->notify_site_of_role($site, $role);
+}
+
+/**
+ * IDS 核心功能
+ */
+private function core_ids_functions() {
+    return array(
+        'packet_inspection' => $this->setup_packet_inspection(),
+        'signature_detection' => $this->setup_signature_detection(),
+        'anomaly_detection' => $this->setup_anomaly_detection(),
+        'behavioral_analysis' => $this->setup_behavioral_analysis()
+    );
+}
+
+/**
+ * 設置封包檢查
+ */
+private function setup_packet_inspection() {
+    return array(
+        'deep_packet_inspection' => true,
+        'protocol_analysis' => true,
+        'payload_examination' => true
+    );
+}
+
+/**
+ * 處理最高級別威脅
+ */
+private function handle_maximum_threat_level($attack_data) {
+    // 啟動所有防禦系統
+    $this->activate_all_defense_systems();
+    
+    // 初始化聯合反擊
+    $this->init_joint_countermeasure();
+    
+    // 同步所有子站點的防禦狀態
+    $this->sync_defense_status_with_subsites();
+    
+    // 啟動全球黑名單機制
+    $this->activate_global_blacklisting();
+}
+
+/**
+ * 啟動全域防禦
+ */
+private function activate_all_defense_systems() {
+    foreach (self::SYSTEM_CODENAMES as $codename => $system) {
+        $this->activate_system($codename, array(
+            'level' => 'maximum',
+            'mode' => 'aggressive',
+            'coordination' => 'global'
+        ));
+    }
+}
+
+/**
+ * 生成詳細安全報告
+ */
+private function generate_detailed_security_report($attack_data) {
+    return array(
+        'basic_info' => $this->get_basic_attack_info($attack_data),
+        'technical_details' => $this->get_technical_details($attack_data),
+        'impact_analysis' => $this->analyze_attack_impact($attack_data),
+        'countermeasures' => array(
+            'active' => $this->get_active_countermeasures(),
+            'planned' => $this->get_planned_countermeasures(),
+            'joint_operations' => $this->get_joint_operation_status()
+        ),
+        'recommendations' => $this->generate_recommendations($attack_data)
+    );
+}
+
     /**
      * 威脅等級定義
      */
@@ -153,6 +251,18 @@ lass VEL_IDS {
             )
         ));
     }
+
+/**
+ * 全球協調機制
+ */
+private function global_coordination_mechanism() {
+    return array(
+        'threat_sharing' => $this->setup_threat_sharing(),
+        'response_coordination' => $this->setup_response_coordination(),
+        'resource_sharing' => $this->setup_resource_sharing(),
+        'legal_cooperation' => $this->setup_legal_cooperation()
+    );
+}
 
     /**
      * 驗證是否符合第7級威脅條件
