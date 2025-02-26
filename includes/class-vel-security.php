@@ -24,6 +24,20 @@ class VEL_Security {
     private $ids;
 
     /**
+     * 子站點列表
+     *
+     * @var array
+     */
+    private $subsites = array();
+
+    /**
+     * 防禦網路狀態
+     *
+     * @var array
+     */
+    private $defense_network = array();
+    
+    /**
      * Logger 實例
      *
      * @var VEL_Logger
@@ -36,8 +50,234 @@ class VEL_Security {
     public function __construct() {
         $this->ids = new VEL_IDS();
         $this->logger = new VEL_Logger();
+        $this->init_defense_network();
     }
 
+    /**
+     * 初始化防禦網路
+     */
+    private function init_defense_network() {
+        $this->subsites = $this->get_registered_subsites();
+        $this->setup_defense_channels();
+    }
+
+    /**
+     * 處理攻擊事件
+     *
+     * @param array $attack_data
+     * @return bool
+     */
+    public function handle_attack($attack_data) {
+        // 記錄攻擊事件
+        $this->logger->log('security', 'Attack detected', Logger::WARNING, $attack_data);
+
+        // 評估威脅等級
+        $threat_level = $this->assess_threat_level($attack_data);
+
+        // 如果威脅等級高，廣播到所有子站點
+        if ($threat_level >= 3) {
+            $this->broadcast_defense_alert($attack_data);
+        }
+
+        // 執行防禦措施
+        $defense_result = $this->execute_defense_measures($attack_data, $threat_level);
+
+        // 根據威脅等級決定是否需要反制
+        if ($threat_level >= 4 && $this->should_counter_attack($attack_data)) {
+            $this->initiate_counter_measures($attack_data);
+        }
+
+        return $defense_result;
+    }
+
+    /**
+     * 評估威脅等級
+     *
+     * @param array $attack_data
+     * @return int
+     */
+    private function assess_threat_level($attack_data) {
+        $level = 1;
+
+        // 根據攻擊類型評估
+        switch ($attack_data['type']) {
+            case 'ddos':
+                $level = $this->assess_ddos_threat($attack_data);
+                break;
+            case 'injection':
+                $level = $this->assess_injection_threat($attack_data);
+                break;
+            case 'crawler':
+                $level = $this->assess_crawler_threat($attack_data);
+                break;
+            default:
+                $level = $this->assess_general_threat($attack_data);
+        }
+
+        return $level;
+    }
+
+    /**
+     * 執行防禦措施
+     *
+     * @param array $attack_data
+     * @param int $threat_level
+     * @return bool
+     */
+    private function execute_defense_measures($attack_data, $threat_level) {
+        $measures = array();
+
+        // 根據威脅等級採取不同防禦措施
+        switch ($threat_level) {
+            case 5: // 最高級別
+                $measures = array(
+                    'block_ip' => true,
+                    'rate_limit' => true,
+                    'challenge' => true,
+                    'notify_admin' => true
+                );
+                break;
+            case 4:
+                $measures = array(
+                    'rate_limit' => true,
+                    'challenge' => true
+                );
+                break;
+            case 3:
+                $measures = array(
+                    'rate_limit' => true
+                );
+                break;
+            default:
+                $measures = array(
+                    'monitor' => true
+                );
+        }
+
+        return $this->apply_defense_measures($attack_data['source_ip'], $measures);
+    }
+
+    /**
+     * 執行反制措施
+     *
+     * @param array $attack_data
+     * @return bool
+     */
+    private function initiate_counter_measures($attack_data) {
+        // 檢查是否允許反制
+        if (!$this->is_counter_measure_allowed()) {
+            return false;
+        }
+
+        $counter_measures = array(
+            'delay_response' => true,    // 延遲響應
+            'resource_consumption' => true, // 資源消耗
+            'confusion_data' => true      // 混淆數據
+        );
+
+        return $this->apply_counter_measures($attack_data['source_ip'], $counter_measures);
+    }
+
+    /**
+     * 應用防禦措施
+     *
+     * @param string $ip
+     * @param array $measures
+     * @return bool
+     */
+    private function apply_defense_measures($ip, $measures) {
+        foreach ($measures as $measure => $enabled) {
+            if (!$enabled) continue;
+
+            switch ($measure) {
+                case 'block_ip':
+                    $this->block_ip($ip);
+                    break;
+                case 'rate_limit':
+                    $this->apply_rate_limiting($ip);
+                    break;
+                case 'challenge':
+                    $this->issue_challenge($ip);
+                    break;
+                case 'notify_admin':
+                    $this->notify_admin($ip);
+                    break;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * 應用反制措施
+     *
+     * @param string $ip
+     * @param array $measures
+     * @return bool
+     */
+    private function apply_counter_measures($ip, $measures) {
+        foreach ($measures as $measure => $enabled) {
+            if (!$enabled) continue;
+
+            switch ($measure) {
+                case 'delay_response':
+                    $this->apply_response_delay($ip);
+                    break;
+                case 'resource_consumption':
+                    $this->increase_resource_usage($ip);
+                    break;
+                case 'confusion_data':
+                    $this->send_confusion_data($ip);
+                    break;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * 廣播防禦警報
+     *
+     * @param array $attack_data
+     * @return bool
+     */
+    private function broadcast_defense_alert($attack_data) {
+        foreach ($this->subsites as $subsite) {
+            $this->send_defense_alert($subsite, $attack_data);
+        }
+        return true;
+    }
+
+    /**
+     * 發送防禦警報
+     *
+     * @param array $subsite
+     * @param array $attack_data
+     * @return bool
+     */
+    private function send_defense_alert($subsite, $attack_data) {
+        $response = wp_remote_post($subsite['api_url'] . '/security/alert', array(
+            'body' => json_encode($attack_data),
+            'headers' => array(
+                'Content-Type' => 'application/json',
+                'X-VEL-Security-Token' => $this->generate_security_token($subsite)
+            ),
+            'timeout' => 15
+        ));
+
+        if (is_wp_error($response)) {
+            $this->logger->log('security', 'Failed to send alert', Logger::ERROR, array(
+                'subsite' => $subsite['name'],
+                'error' => $response->get_error_message()
+            ));
+            return false;
+        }
+
+        return true;
+    }
+
+
+    
     /**
      * 獲取系統安全狀態
      *
