@@ -1,4 +1,4 @@
-ㄏ/ 全球黑名單
+    / 全球黑名單
         'AVENGER    => 'legal_countermeasure'    // 法律反制
      );
 
