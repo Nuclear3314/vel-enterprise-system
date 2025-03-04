@@ -1,56 +1,62 @@
 <?php
 /**
  * Plugin Name: VEL Enterprise System
- * Description: A powerful enterprise-level system providing AI analysis, prediction, and model management.
+ * Plugin URI: https://v-e-l-newlifeworld.com
+ * Description: 企業級 WordPress 系統整合方案
  * Version: 1.0.0
- * Author: Nuclear3314
+ * Requires at least: 5.8
+ * Requires PHP: 8.2
+ * Author: VEL New Life World
+ * Author URI: https://v-e-l-newlifeworld.com
  * Text Domain: vel-enterprise-system
+ * Domain Path: /languages
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
-    exit; // Exit if accessed directly.
+namespace VEL;
+
+if (!defined('ABSPATH')) {
+    exit;
 }
 
-// Define plugin constants.
-define( 'VEL_PLUGIN_VERSION', '1.0.0' );
-define( 'VEL_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
-define( 'VEL_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
+// 定義常數
+define('VEL_VERSION', '1.0.0');
+define('VEL_PLUGIN_DIR', plugin_dir_path(__FILE__));
+define('VEL_PLUGIN_URL', plugin_dir_url(__FILE__));
+define('VEL_PLUGIN_FILE', __FILE__);
 
-// Include required files.
-require_once VEL_PLUGIN_DIR . 'config/constants.php';
-require_once VEL_PLUGIN_DIR . 'config/default-settings.php';
-require_once VEL_PLUGIN_DIR . 'includes/api/class-vel-rest-controller.php';
-require_once VEL_PLUGIN_DIR . 'includes/class-vel-security.php';
-require_once VEL_PLUGIN_DIR . 'includes/class-vel-ids.php';
-require_once VEL_PLUGIN_DIR . 'includes/class-vel-logger.php';
+// 自動載入
+require_once VEL_PLUGIN_DIR . 'includes/class-vel-autoloader.php';
+$autoloader = new Includes\VEL_Autoloader();
+$autoloader->register();
 
-// Initialize the plugin.
-function vel_enterprise_system_init() {
-    // Load text domain for translations.
-    load_plugin_textdomain( 'vel-enterprise-system', false, basename( dirname( __FILE__ ) ) . '/languages' );
+// 初始化核心元件
+$core = new Includes\VEL_Core();
+$compatibility = new Includes\VEL_Compatibility();
+$assets = new Includes\VEL_Assets();
+$security = new Includes\VEL_Security_Validator();
 
-    // Register REST API routes.
-    $rest_controller = new VEL_REST_Controller();
-    $rest_controller->register_routes();
-}
-add_action( 'init', 'vel_enterprise_system_init' );
+// 註冊啟用/停用鉤子
+register_activation_hook(__FILE__, [$core, 'activate']);
+register_deactivation_hook(__FILE__, [$core, 'deactivate']);
 
-// Enqueue admin scripts and styles.
-function vel_enqueue_admin_scripts() {
-    wp_enqueue_script( 'vel-admin', VEL_PLUGIN_URL . 'admin/js/vel-admin.js', array( 'jquery' ), VEL_PLUGIN_VERSION, true );
-    wp_enqueue_style( 'vel-admin', VEL_PLUGIN_URL . 'admin/css/vel-admin.css', array(), VEL_PLUGIN_VERSION );
-}
-add_action( 'admin_enqueue_scripts', 'vel_enqueue_admin_scripts' );
+// 載入翻譯
+add_action('plugins_loaded', function() use ($core) {
+    load_plugin_textdomain(
+        'vel-enterprise-system',
+        false,
+        dirname(plugin_basename(__FILE__)) . '/languages/'
+    );
+    
+    // 執行相容性檢查
+    if (!$core->check_compatibility()) {
+        return;
+    }
+    
+    // 初始化外掛
+    $core->init();
+});
 
-// Enqueue public scripts and styles.
-function vel_enqueue_public_scripts() {
-    wp_enqueue_script( 'vel-public', VEL_PLUGIN_URL . 'public/js/vel-public.js', array( 'jquery' ), VEL_PLUGIN_VERSION, true );
-    wp_enqueue_style( 'vel-public', VEL_PLUGIN_URL . 'public/css/vel-public.css', array(), VEL_PLUGIN_VERSION );
-}
-add_action( 'wp_enqueue_scripts', 'vel_enqueue_public_scripts' );
-
-// Detect and respond to suspicious activity.
-function vel_detect_suspicious_activity( $request ) {
-    VEL_IDS::detect_intrusion( $request );
-}
-add_action( 'rest_api_init', 'vel_detect_suspicious_activity' );
+// 註冊資源
+add_action('init', function() use ($assets) {
+    $assets->register_assets();
+});

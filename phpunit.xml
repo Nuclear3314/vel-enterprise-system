@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit bootstrap="tests/bootstrap.php"
+         colors="true"
+         verbose="true">
+    <testsuites>
+        <testsuite name="VEL Test Suite">
+            <directory>tests</directory>
+        </testsuite>
+        <testsuite name="整合測試">
+            <directory>tests/integration</directory>
+        </testsuite>
+    </testsuites>
+    <filter>
+        <whitelist>
+            <directory suffix=".php">includes</directory>
+        </whitelist>
+    </filter>
+</phpunit>
