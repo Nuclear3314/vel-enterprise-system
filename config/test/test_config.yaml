@@ -1,0 +1,10 @@
+test:
+  api:
+    base_url: "http://localhost:8000"
+    timeout: 30
+  database:
+    host: "localhost"
+    database: "test_db"
+  report:
+    format: "html"
+    output_dir: "reports/test"

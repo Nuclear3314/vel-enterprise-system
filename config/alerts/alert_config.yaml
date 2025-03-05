@@ -1,0 +1,18 @@
+alerts:
+  thresholds:
+    cpu: 80
+    memory: 85
+    disk: 90
+    response_time: 5000
+  
+  channels:
+    email:
+      smtp_server: "smtp.gmail.com"
+      port: 587
+      username: "alerts@example.com"
+    
+    slack:
+      webhook_url: "https://hooks.slack.com/services/xxx"
+      
+    teams:
+      webhook_url: "https://outlook.office.com/webhook/xxx"

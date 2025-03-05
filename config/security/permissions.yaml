@@ -1,0 +1,10 @@
+roles:
+  admin:
+    - manage_users
+    - view_logs
+    - modify_system
+  operator:
+    - view_dashboard
+    - view_reports
+  user:
+    - view_dashboard

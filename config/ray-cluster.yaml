@@ -1,0 +1,5 @@
+cluster_name: vel_cluster
+max_workers: 4
+provider:
+    type: kubernetes
+    use_internal_ips: true

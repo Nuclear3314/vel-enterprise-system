@@ -1,0 +1,18 @@
+roles:
+  admin:
+    - manage_users
+    - view_logs
+    - modify_system
+  operator:
+    - view_dashboard
+    - view_reports
+  user:
+    - view_dashboard
+
+permissions:
+  manage_users:
+    description: "管理使用者權限"
+    level: "高"
+  view_logs:
+    description: "查看系統日誌"
+    level: "中"

@@ -1,0 +1,11 @@
+{
+    'email': {
+        'smtp_server': 'smtp.gmail.com',
+        'port': 587,
+        'username': 'alerts@example.com',
+        'password': 'your_password'
+    },
+    'slack': {
+        'webhook_url': 'https://hooks.slack.com/services/your/webhook/url'
+    }
+}

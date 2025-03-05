@@ -1,13 +1,13 @@
 <?php
 namespace VEL\Tests\Unit;
 
-use VEL_Security;
-use WP_UnitTestCase;
+use VEL\Tests\TestCase;
+use VEL\Includes\Security\VEL_Security;
 
-class SecurityTest extends WP_UnitTestCase {
+class SecurityTest extends TestCase {
     private $security;
 
-    public function setUp(): void {
+    protected function setUp(): void {
         parent::setUp();
         $this->security = new VEL_Security();
     }
@@ -31,5 +31,11 @@ class SecurityTest extends WP_UnitTestCase {
         
         // 檢查是否有適當的權限
         $this->assertEquals('0755', substr(sprintf('%o', fileperms(VEL_PLUGIN_DIR . 'logs')), -4));
+    }
+
+    public function test_安全性檢查功能()
+    {
+        $result = $this->security->checkSecurityStatus();
+        $this->assertTrue($result);
     }
 }

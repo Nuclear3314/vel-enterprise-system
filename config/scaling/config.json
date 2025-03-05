@@ -1,0 +1,11 @@
+{
+    'thresholds': {
+        'cpu_high': 80,
+        'cpu_low': 20,
+        'memory_high': 85,
+        'memory_low': 40
+    },
+    'cooldown_period': 300,
+    'min_replicas': 1,
+    'max_replicas': 10
+}

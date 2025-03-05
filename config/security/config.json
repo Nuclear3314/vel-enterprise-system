@@ -1,0 +1,11 @@
+{
+    'scan_intervals': {
+        'vulnerability_scan': 86400,
+        'port_scan': 3600,
+        'config_check': 43200
+    },
+    'notification': {
+        'email': 'security@example.com',
+        'slack_webhook': 'https://hooks.slack.com/services/xxx'
+    }
+}

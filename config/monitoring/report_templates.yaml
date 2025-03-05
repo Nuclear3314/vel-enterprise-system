@@ -1,0 +1,18 @@
+templates:
+  daily:
+    sections:
+      - name: "系統效能摘要"
+        metrics:
+          - cpu_usage
+          - memory_usage
+          - disk_usage
+      - name: "異常事件"
+        metrics:
+          - error_count
+          - warning_count
+  weekly:
+    sections:
+      - name: "週效能趨勢"
+        metrics:
+          - cpu_trend
+          - memory_trend

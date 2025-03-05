@@ -1,0 +1,21 @@
+dashboard:
+  refresh_rate: 5000
+  metrics:
+    - name: "CPU 使用率"
+      type: "gauge"
+      unit: "%"
+    - name: "記憶體使用率"
+      type: "gauge"
+      unit: "%"
+    - name: "網路流量"
+      type: "line"
+      unit: "MB/s"
+  
+  layout:
+    columns: 2
+    rows: 2
+  alerts:
+    thresholds:
+      cpu: 80
+      memory: 85
+      disk: 90

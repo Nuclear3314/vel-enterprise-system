@@ -1,0 +1,10 @@
+{
+    'target_url': 'http://localhost:8000',
+    'num_users': 100,
+    'spawn_rate': 10,
+    'duration': 300,
+    'thresholds': {
+        'response_time': 500,
+        'error_rate': 1
+    }
+}

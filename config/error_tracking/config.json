@@ -1,0 +1,12 @@
+{
+    'database': {
+        'host': 'localhost',
+        'user': 'error_tracking',
+        'password': 'error_track_pass',
+        'database': 'vel_errors'
+    },
+    'notification': {
+        'critical_threshold': 5,
+        'notification_interval': 300
+    }
+}

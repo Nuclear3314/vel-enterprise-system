@@ -1,0 +1,18 @@
+health_check:
+  intervals:
+    system: 60
+    services: 30
+    database: 120
+  
+  services:
+    - name: "api_gateway"
+      url: "http://localhost:8000/health"
+      timeout: 5
+    - name: "auth_service"
+      url: "http://localhost:8001/health"
+      timeout: 5
+
+  thresholds:
+    cpu: 80
+    memory: 85
+    disk: 90

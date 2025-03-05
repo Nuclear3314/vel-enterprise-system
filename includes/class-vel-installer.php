@@ -261,4 +261,21 @@ class VEL_Installer {
             $admin_role->remove_cap('vel_export_data');
         }
     }
+
+    /**
+     * 檢查系統要求
+     */
+    public function check_requirements() {
+        $requirements = [
+            'php' => '7.4',
+            'wp' => '5.8',
+            'extensions' => ['curl', 'json', 'openssl']
+        ];
+        
+        foreach ($requirements['extensions'] as $ext) {
+            if (!extension_loaded($ext)) {
+                throw new \Exception("需要 PHP {$ext} 擴展");
+            }
+        }
+    }
 }

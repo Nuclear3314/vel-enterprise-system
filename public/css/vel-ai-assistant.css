@@ -1,0 +1,45 @@
+.vel-message {
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+.vel-message.system {
+    background: #f0f0f0;
+    color: #666;
+}
+
+.vel-message.ai {
+    background: #e3f2fd;
+    color: #1565c0;
+}
+
+.vel-message.error {
+    background: #ffebee;
+    color: #c62828;
+}
+
+.vel-message .timestamp {
+    font-size: 0.8em;
+    color: #999;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.vel-message .content {
+    line-height: 1.4;
+}
+
+.vel-ai-chat::-webkit-scrollbar {
+    width: 6px;
+}
+
+.vel-ai-chat::-webkit-scrollbar-thumb {
+    background: #ddd;
+    border-radius: 3px;
+}
+
+.vel-floating-window.minimized {
+    height: 50px;
+    overflow: hidden;
+}

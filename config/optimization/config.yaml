@@ -1,0 +1,15 @@
+optimization:
+  database:
+    vacuum_threshold: 1000
+    index_rebuild_days: 7
+    analyze_threshold: 100
+  
+  cache:
+    max_memory: "2gb"
+    eviction_policy: "allkeys-lru"
+    cleanup_interval: 3600
+  
+  api:
+    rate_limit: 1000
+    timeout: 30
+    max_connections: 500

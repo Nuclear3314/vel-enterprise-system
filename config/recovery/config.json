@@ -1,0 +1,10 @@
+{
+    'backup_dir': 'D:/vel-enterprise-system/storage/backups',
+    'database': {
+        'host': 'localhost',
+        'user': 'recovery_user',
+        'password': 'recovery_password',
+        'database': 'vel_db'
+    },
+    'verify_timeout': 300
+}

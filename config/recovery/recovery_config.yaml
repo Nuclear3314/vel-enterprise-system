@@ -1,0 +1,15 @@
+disaster_recovery:
+  backup:
+    frequency: "daily"
+    retention_days: 30
+    critical_paths:
+      - "/data/db"
+      - "/config"
+      - "/user_data"
+  
+  monitoring:
+    check_interval: 300
+    alert_threshold: 3
+    notification_channels:
+      - email
+      - slack

@@ -1,0 +1,20 @@
+deployment:
+  stages:
+    - name: prepare
+      timeout: 300
+    - name: stop_services
+      timeout: 120
+    - name: deploy
+      timeout: 600
+    - name: verify
+      timeout: 300
+  
+  containers:
+    - name: vel-app
+      image: vel-system
+      ports:
+        - 8000:8000
+    - name: vel-db
+      image: postgres:13
+      ports:
+        - 5432:5432

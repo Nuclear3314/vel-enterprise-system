@@ -1,0 +1,19 @@
+templates:
+  system:
+    sections:
+      - title: "系統概況"
+        metrics:
+          - cpu_usage
+          - memory_usage
+          - disk_usage
+      - title: "效能指標"
+        metrics:
+          - response_time
+          - throughput
+  
+  performance:
+    sections:
+      - title: "資料庫效能"
+        metrics:
+          - query_time
+          - connection_count

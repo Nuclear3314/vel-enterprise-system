@@ -1,0 +1,24 @@
+<?php
+/**
+ * 默認設置
+ *
+ * @package VEL_Enterprise_System
+ * @since 1.0.0
+ * @version 1.0.0
+ * @author Nuclear3314
+ * @copyright 2025 Nuclear3314
+ * @last_modified 2025-02-24 03:23:17
+ */
+
+defined('ABSPATH') || exit;
+
+return [
+    'api_key' => '',
+    'rate_limit' => 1000,
+    'learning_rate' => 0.01,
+    'batch_size' => 32,
+    'epochs' => 100,
+    'log_retention' => 30,
+    'cleanup_frequency' => 'weekly',
+    'debug_mode' => false,
+];

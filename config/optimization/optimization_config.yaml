@@ -1,0 +1,18 @@
+optimization:
+  thresholds:
+    cpu_high: 80
+    memory_high: 85
+    disk_high: 90
+  
+  intervals:
+    check: 300  # 每5分鐘檢查一次
+    optimize: 3600  # 每小時優化一次
+  
+  rules:
+    - name: "memory_cleanup"
+      condition: "memory > 85"
+      action: "cleanup_memory"
+      
+    - name: "cache_cleanup"
+      condition: "cache_size > 1GB"
+      action: "cleanup_cache"

@@ -1,0 +1,95 @@
+# Copyright (C) 2025 Nuclear3314
+# This file is distributed under the GPL v2 or later.
+msgid ""
+msgstr ""
+"Project-Id-Version: VEL Enterprise System 1.0.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/vel-enterprise-system\n"
+"Last-Translator: Nuclear3314\n"
+"Language-Team: Nuclear3314\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2025-02-25T07:49:28+00:00\n"
+"PO-Revision-Date: 2025-02-25T07:49:28+00:00\n"
+"X-Generator: WP-CLI 2.8.1\n"
+"X-Domain: vel-enterprise-system\n"
+
+#. Plugin Name of the plugin
+msgid "VEL Enterprise System"
+msgstr ""
+
+#. Plugin URI of the plugin
+msgid "https://github.com/Nuclear3314/vel-enterprise-system"
+msgstr ""
+
+#. Description of the plugin
+msgid "Enterprise system for WordPress, integrating security, AI and logistics functionality."
+msgstr ""
+
+#. Author of the plugin
+msgid "Nuclear3314"
+msgstr ""
+
+#. Author URI of the plugin
+msgid "https://github.com/Nuclear3314"
+msgstr ""
+
+#: admin/class-vel-admin.php:35
+msgid "VEL Enterprise"
+msgstr ""
+
+#: admin/class-vel-admin.php:44
+msgid "Security Settings"
+msgstr ""
+
+#: admin/class-vel-admin.php:45
+msgid "Security"
+msgstr ""
+
+#: admin/class-vel-admin.php:98
+msgid "Enable Security Logging"
+msgstr ""
+
+#: admin/class-vel-admin.php:124
+msgid "Configure security settings for your enterprise system."
+msgstr ""
+
+#: includes/class-vel-installer.php:189
+msgid "Installation completed successfully."
+msgstr ""
+
+#: includes/class-vel-installer.php:190
+msgid "Error during installation: %s"
+msgstr ""
+
+#: includes/api/class-vel-api.php:267
+msgid "Missing required parameters: %s"
+msgstr ""
+
+#: includes/api/class-vel-rest-controller.php:321
+msgid "Current page of the collection."
+msgstr ""
+
+#: includes/api/class-vel-rest-controller.php:328
+msgid "Maximum number of items to be returned in result set."
+msgstr ""
+
+#: includes/api/class-vel-rest-controller.php:342
+msgid "Model ID to use for prediction."
+msgstr ""
+
+#: includes/api/class-vel-rest-controller.php:347
+msgid "Data for prediction."
+msgstr ""
+
+#: includes/api/class-vel-rest-controller.php:359
+msgid "Model name."
+msgstr ""
+
+#: includes/api/class-vel-rest-controller.php:365
+msgid "Model type."
+msgstr ""
+
+#: includes/api/class-vel-rest-controller.php:371
+msgid "Model configuration."
+msgstr ""

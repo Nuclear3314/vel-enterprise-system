@@ -1,0 +1,15 @@
+logging:
+  paths:
+    app_logs: "D:/logs/app"
+    system_logs: "D:/logs/system"
+    access_logs: "D:/logs/access"
+  
+  analysis:
+    interval: 3600  # 每小時分析一次
+    retention: 30   # 保留30天的分析結果
+    
+  patterns:
+    - type: "error"
+      pattern: "ERROR|CRITICAL|FATAL"
+    - type: "warning"
+      pattern: "WARNING|WARN"

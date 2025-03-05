@@ -1,0 +1,135 @@
+/**
+ * VEL Enterprise System Public Styles
+ *
+ * @package VEL_Enterprise_System
+ * @since 1.0.0
+ * @version 1.0.0
+ * @author Nuclear3314
+ * @copyright 2025 Nuclear3314
+ * @last_modified 2025-02-23 15:40:12
+ */
+
+/* 全局設置
+---------------------------------------------- */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background: #f7f7f7;
+    margin: 0;
+    padding: 0;
+}
+
+/* 容器設置
+---------------------------------------------- */
+.vel-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background: #fff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+}
+
+/* 標題樣式
+---------------------------------------------- */
+h1, h2, h3 {
+    color: #23282d;
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+h2 {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+/* 表單樣式
+---------------------------------------------- */
+input[type="text"], input[type="number"], select, textarea {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    line-height: 1.5;
+    margin-bottom: 10px;
+    transition: border-color 0.3s ease;
+}
+
+input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:focus {
+    border-color: #0073aa;
+    outline: none;
+    box-shadow: 0 0 0 1px #0073aa;
+}
+
+/* 按鈕樣式
+---------------------------------------------- */
+button {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+button.primary {
+    background: #0073aa;
+    color: #fff;
+}
+
+button.primary:hover {
+    background: #006291;
+}
+
+button.secondary {
+    background: #f1f1f1;
+    color: #23282d;
+}
+
+button.secondary:hover {
+    background: #e2e4e7;
+}
+
+button.danger {
+    background: #dc3232;
+    color: #fff;
+}
+
+button.danger:hover {
+    background: #c92424;
+}
+
+/* 圖表容器樣式
+---------------------------------------------- */
+.vel-chart-container {
+    position: relative;
+    height: 300px;
+    margin-bottom: 20px;
+}
+
+/* 響應式設計
+---------------------------------------------- */
+@media screen and (max-width: 782px) {
+    .vel-container {
+        padding: 10px;
+    }
+
+    .vel-chart-container {
+        height: 250px;
+    }
+}

@@ -1,0 +1,10 @@
+{
+    "php.version": "8.2",
+    "php.suggest.basic": true,
+    "php.validate.enable": true,
+    "php.format.enable": true,
+    "files.associations": {
+        "*.php": "php"
+    },
+    "editor.formatOnSave": true
+}

@@ -1,0 +1,12 @@
+{
+    'repair_strategies': {
+        'memory_leak': {
+            'threshold': 90,
+            'action': 'gc_collect'
+        },
+        'database': {
+            'max_retries': 3,
+            'retry_interval': 5
+        }
+    }
+}

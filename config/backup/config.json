@@ -1,0 +1,11 @@
+{
+    'backup_dir': 'D:/vel-enterprise-system/storage/backups',
+    'retention_days': 30,
+    'database': {
+        'host': 'localhost',
+        'user': 'backup_user',
+        'password': 'backup_password',
+        'database': 'vel_db'
+    },
+    'schedule': '0 0 * * *'  # ¨C¤Ñ¤È©]°õ¦æ
+}

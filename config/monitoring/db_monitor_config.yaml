@@ -1,0 +1,10 @@
+database_monitoring:
+  intervals:
+    performance: 300  # 5分鐘
+    connections: 60   # 1分鐘
+    resources: 120    # 2分鐘
+  
+  thresholds:
+    slow_query: 1.0
+    max_connections: 100
+    cpu_usage: 80

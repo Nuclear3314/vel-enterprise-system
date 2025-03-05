@@ -1,9 +1,10 @@
 <?php
 /**
- * 註冊所有動作和過濾器的加載器
+ * 載入器類別
  *
- * @package VEL_Enterprise_System
- * @since 1.0.0
+ * @package     VEL_Enterprise_System
+ * @author      VEL New Life World
+ * @copyright   2025 VEL New Life World
  */
 
 namespace VEL;
@@ -12,30 +13,13 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-class Loader {
-    /**
-     * 存儲所有要註冊的動作
-     *
-     * @var array
-     */
+class VEL_Loader {
     protected $actions;
-
-    /**
-     * 存儲所有要註冊的過濾器
-     *
-     * @var array
-     */
     protected $filters;
-
-    /**
-     * 存儲所有要註冊的短代碼
-     *
-     * @var array
-     */
     protected $shortcodes;
 
     /**
-     * 初始化集合
+     * 初始化載入器
      */
     public function __construct() {
         $this->actions = array();
@@ -44,52 +28,44 @@ class Loader {
     }
 
     /**
-     * 添加新的動作到集合中
+     * 新增動作鉤子
      *
-     * @param string $hook          鉤子名稱
-     * @param object $component     包含回調的對象
-     * @param string $callback      回調函數名稱
-     * @param int    $priority      優先級
-     * @param int    $accepted_args 接受的參數數量
+     * @param string   $hook          鉤子名稱
+     * @param object   $component     執行鉤子的對象
+     * @param string   $callback      回調函數名稱
+     * @param int      $priority      優先順序
+     * @param int      $accepted_args 接受的參數數量
      */
     public function add_action($hook, $component, $callback, $priority = 10, $accepted_args = 1) {
         $this->actions = $this->add($this->actions, $hook, $component, $callback, $priority, $accepted_args);
     }
 
     /**
-     * 添加新的過濾器到集合中
+     * 新增篩選鉤子
      *
-     * @param string $hook          鉤子名稱
-     * @param object $component     包含回調的對象
-     * @param string $callback      回調函數名稱
-     * @param int    $priority      優先級
-     * @param int    $accepted_args 接受的參數數量
+     * @param string   $hook          鉤子名稱
+     * @param object   $component     執行鉤子的對象
+     * @param string   $callback      回調函數名稱
+     * @param int      $priority      優先順序
+     * @param int      $accepted_args 接受的參數數量
      */
     public function add_filter($hook, $component, $callback, $priority = 10, $accepted_args = 1) {
         $this->filters = $this->add($this->filters, $hook, $component, $callback, $priority, $accepted_args);
     }
 
     /**
-     * 添加新的短代碼到集合中
+     * 新增短碼
      *
-     * @param string $tag      短代碼標籤
-     * @param object $component 包含回調的對象
-     * @param string $callback  回調函數名稱
+     * @param string   $tag           短碼標籤
+     * @param object   $component     執行短碼的對象
+     * @param string   $callback      回調函數名稱
      */
     public function add_shortcode($tag, $component, $callback) {
-        $this->shortcodes = $this->add($this->shortcodes, $tag, $component, $callback, null, null);
+        $this->shortcodes = $this->add($this->shortcodes, $tag, $component, $callback, 0, 0);
     }
 
     /**
-     * 工具函數，用於向集合中添加新的鉤子/短代碼
-     *
-     * @param array  $hooks         現有的鉤子集合
-     * @param string $hook          鉤子名稱
-     * @param object $component     包含回調的對象
-     * @param string $callback      回調函數名稱
-     * @param int    $priority      優先級
-     * @param int    $accepted_args 接受的參數數量
-     * @return array
+     * 通用新增鉤子函數
      */
     private function add($hooks, $hook, $component, $callback, $priority, $accepted_args) {
         $hooks[] = array(
@@ -104,35 +80,22 @@ class Loader {
     }
 
     /**
-     * 註冊存儲在集合中的所有鉤子
+     * 執行所有已註冊的鉤子
      */
     public function run() {
-        // 註冊動作
+        // 註冊動作鉤子
         foreach ($this->actions as $hook) {
-            add_action(
-                $hook['hook'],
-                array($hook['component'], $hook['callback']),
-                $hook['priority'],
-                $hook['accepted_args']
-            );
+            add_action($hook['hook'], array($hook['component'], $hook['callback']), $hook['priority'], $hook['accepted_args']);
         }
 
-        // 註冊過濾器
+        // 註冊篩選鉤子
         foreach ($this->filters as $hook) {
-            add_filter(
-                $hook['hook'],
-                array($hook['component'], $hook['callback']),
-                $hook['priority'],
-                $hook['accepted_args']
-            );
+            add_filter($hook['hook'], array($hook['component'], $hook['callback']), $hook['priority'], $hook['accepted_args']);
         }
 
-        // 註冊短代碼
+        // 註冊短碼
         foreach ($this->shortcodes as $shortcode) {
-            add_shortcode(
-                $shortcode['hook'],
-                array($shortcode['component'], $shortcode['callback'])
-            );
+            add_shortcode($shortcode['hook'], array($shortcode['component'], $shortcode['callback']));
         }
     }
 

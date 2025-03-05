@@ -1,0 +1,55 @@
+class VEL_Installer {
+    public static function install() {
+        global $wpdb;
+        $charset_collate = $wpdb->get_charset_collate();
+
+        require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+
+        // 安全日誌表
+        $sql = "CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}vel_security_log` (
+            `id` bigint(20) NOT NULL AUTO_INCREMENT,
+            `attack_type` varchar(50) NOT NULL,
+            `severity` varchar(20) NOT NULL,
+            `source_ip` varchar(45) NOT NULL,
+            `details` text NOT NULL,
+            `created_at` datetime NOT NULL,
+            `status` varchar(20) NOT NULL DEFAULT 'active',
+            PRIMARY KEY (`id`),
+            KEY `idx_attack_type` (`attack_type`),
+            KEY `idx_severity` (`severity`),
+            KEY `idx_created_at` (`created_at`)
+        ) $charset_collate;";
+        dbDelta($sql);
+
+        // 防禦日誌表
+        $sql = "CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}vel_defense_log` (
+            `id` bigint(20) NOT NULL AUTO_INCREMENT,
+            `action_type` varchar(50) NOT NULL,
+            `details` text NOT NULL,
+            `created_at` datetime NOT NULL,
+            PRIMARY KEY (`id`),
+            KEY `idx_action_type` (`action_type`),
+            KEY `idx_created_at` (`created_at`)
+        ) $charset_collate;";
+        dbDelta($sql);
+
+        // 子站點表
+        $sql = "CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}vel_subsites` (
+            `id` bigint(20) NOT NULL AUTO_INCREMENT,
+            `name` varchar(100) NOT NULL,
+            `url` varchar(255) NOT NULL,
+            `api_url` varchar(255) NOT NULL,
+            `secret_key` varchar(64) NOT NULL,
+            `encryption_key` varchar(64) NOT NULL,
+            `status` varchar(20) NOT NULL DEFAULT 'active',
+            `created_at` datetime NOT NULL,
+            PRIMARY KEY (`id`)
+        ) $charset_collate;";
+        dbDelta($sql);
+
+        // 設置默認選項
+        add_option('vel_counter_measures_enabled', true);
+        add_option('vel_firewall_enabled', true);
+        add_option('vel_defense_level', 'LEVEL_1');
+    }
+}

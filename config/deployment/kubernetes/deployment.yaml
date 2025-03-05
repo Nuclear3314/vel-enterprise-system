@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vel-system
+  namespace: production
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: vel-system
+  template:
+    metadata:
+      labels:
+        app: vel-system
+    spec:
+      containers:
+      - name: vel-app
+        image: vel-system:latest
+        ports:
+        - containerPort: 8000
+        resources:
+          limits:
+            cpu: "1"
+            memory: "1Gi"

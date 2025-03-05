@@ -1,0 +1,14 @@
+{
+    'database': {
+        'host': 'localhost',
+        'user': 'benchmark_user',
+        'password': 'benchmark_password',
+        'db': 'vel_db',
+        'charset': 'utf8mb4'
+    },
+    'duration': 300,
+    'queries': [
+        'SELECT * FROM users LIMIT 1000',
+        'SELECT COUNT(*) FROM orders'
+    ]
+}

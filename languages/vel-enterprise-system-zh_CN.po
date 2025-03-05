@@ -1,0 +1,64 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: VEL Enterprise System 1.0.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/vel-enterprise-system\n"
+"POT-Creation-Date: 2025-02-25T08:05:50+00:00\n"
+"PO-Revision-Date: 2025-02-25T08:05:50+00:00\n"
+"Last-Translator: Nuclear3314\n"
+"Language-Team: Simplified Chinese\n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: WP-CLI 2.8.1\n"
+
+msgid "VEL Enterprise System"
+msgstr "VEL 企业系统"
+
+msgid "Enterprise system for WordPress, integrating security, AI and logistics functionality."
+msgstr "WordPress 企业系统，集成安全性、AI 和物流功能。"
+
+msgid "Security Settings"
+msgstr "安全性設定"
+
+msgid "Security"
+msgstr "安全性"
+
+msgid "Enable Security Logging"
+msgstr "啟用安全性日誌"
+
+msgid "Configure security settings for your enterprise system."
+msgstr "設定您的企業系統安全性選項。"
+
+msgid "Installation completed successfully."
+msgstr "安裝完成。"
+
+msgid "Error during installation: %s"
+msgstr "安裝過程中發生錯誤：%s"
+
+msgid "Missing required parameters: %s"
+msgstr "缺少必要參數：%s"
+
+msgid "Current page of the collection."
+msgstr "目前頁面集合。"
+
+msgid "Maximum number of items to be returned in result set."
+msgstr "結果集中要返回的最大項目數。"
+
+msgid "Model ID to use for prediction."
+msgstr "用於預測的模型 ID。"
+
+msgid "Data for prediction."
+msgstr "預測數據。"
+
+msgid "Model name."
+msgstr "模型名稱。"
+
+msgid "Model type."
+msgstr "模型類型。"
+
+msgid "Model configuration."
+msgstr "模型設定。"
+msgid "Settings"
+msgstr "設置"

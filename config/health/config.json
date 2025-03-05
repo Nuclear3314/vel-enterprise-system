@@ -1,0 +1,13 @@
+{
+    'database': {
+        'host': 'localhost',
+        'user': 'health_check',
+        'password': 'health_check_pass',
+        'database': 'vel_db'
+    },
+    'endpoints': [
+        'http://localhost:8000/api/status',
+        'http://localhost:8000/api/metrics'
+    ],
+    'check_interval': 300
+}

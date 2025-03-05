@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>VEL 系統效能報告</title>
+    <style>VEL System Performance Report</title>
+        body { font-family: Arial, sans-serif; }
+        .metric-card {mily: Arial, sans-serif; }
+            border: 1px solid #ddd;
+            padding: 15px;lid #ddd;
+            margin: 10px;;
+            border-radius: 5px;
+        }   border-radius: 5px;
+        .chart-container {
+            width: 100%;tyle>
+            height: 400px;>
+            margin: 20px 0;
+        }1>
+    </style>
+</head>%}
+<body>
+    <h1>系統效能報告 - {{ timestamp }}</h1>>
+    <div class="metrics-summary">>{{ metric.value }}</p>
+        {% for metric in metrics %}
+            {% include 'metric_card.html' %} endfor %}
+        {% endfor %}iv>
+    </div>
+</body></html>
+
+
+</html>

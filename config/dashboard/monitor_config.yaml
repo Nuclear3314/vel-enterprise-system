@@ -1,0 +1,18 @@
+monitoring:
+  refresh_rate: 5000
+  metrics:
+    - name: "CPU使用率"
+      type: "gauge"
+      unit: "%"
+    - name: "記憶體使用率"
+      type: "gauge"
+      unit: "%"
+    - name: "網路流量"
+      type: "line"
+      unit: "MB/s"
+  
+  alerts:
+    thresholds:
+      cpu: 80
+      memory: 85
+      disk: 90

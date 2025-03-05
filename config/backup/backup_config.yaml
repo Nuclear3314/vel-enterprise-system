@@ -1,0 +1,14 @@
+backup:
+  schedule:
+    full: "0 0 * * 0"  # 每週日凌晨執行完整備份
+    incremental: "0 0 * * 1-6"  # 週一至週六執行增量備份
+    
+  paths:
+    - source: "D:/data"
+      destination: "D:/backups/data"
+    - source: "D:/config"
+      destination: "D:/backups/config"
+      
+  retention:
+    full: 30  # 保留30天
+    incremental: 7  # 保留7天

@@ -1,0 +1,12 @@
+{
+    'analysis_settings': {
+        'trend_period': 24,
+        'anomaly_threshold': 0.1,
+        'min_samples': 100
+    },
+    'reporting': {
+        'generate_plots': true,
+        'save_reports': true,
+        'report_format': 'html'
+    }
+}

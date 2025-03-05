@@ -1,0 +1,15 @@
+log_analysis:
+  paths:
+    - "D:/logs/application/*.log"
+    - "D:/logs/system/*.log"
+    - "D:/logs/security/*.log"
+  
+  patterns:
+    - severity: "error"
+      keywords: ["ERROR", "CRITICAL", "FATAL"]
+    - severity: "warning"
+      keywords: ["WARN", "WARNING"]
+  
+  retention:
+    days: 30
+    max_size: "1GB"

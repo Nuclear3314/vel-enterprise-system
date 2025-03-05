@@ -1,0 +1,7 @@
+﻿{
+    "local": {
+        "path": "C:/xampp/htdocs/wordpress/wp-content/plugins/vel-enterprise-system",
+        "backup_path": "C:/backups/vel-enterprise-system/local",
+        "url": "http://localhost/wordpress"
+    }
+}

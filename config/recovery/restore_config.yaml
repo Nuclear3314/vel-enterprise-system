@@ -1,0 +1,11 @@
+restore:
+  backup_location: "D:/backups"
+  temp_restore_path: "D:/temp_restore"
+  services:
+    - name: "api_service"
+      type: "windows_service"
+    - name: "db_service"
+      type: "docker"
+  verification:
+    checksum_algorithm: "sha256"
+    parallel_verify: true

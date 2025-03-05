@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  api:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - DB_HOST=db
+      - REDIS_HOST=cache
+    depends_on:
+      - db
+      - cache
+
+  db:
+    image: mysql:8.0
+    environment:
+      - MYSQL_ROOT_PASSWORD=root_password
+      - MYSQL_DATABASE=vel_db
+
+  cache:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
