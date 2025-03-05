@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # 預測器 API 文檔
 
 本文件介紹了預測器 API 的使用方法和端點。
@@ -84,4 +85,92 @@
 - **404 Not Found**：資源未找到
 - **500 Internal Server Error**：服務器內部錯誤
 
+=======
+# 預測器 API 文檔
+
+本文件介紹了預測器 API 的使用方法和端點。
+
+## 預測端點
+
+### 創建預測
+
+- **URL**
+  ```
+  POST /vel/v1/predict
+  ```
+
+- **參數**
+  | 參數名稱    | 類型   | 是否必需 | 描述           |
+  | ----------- | ------ | -------- | -------------- |
+  | model_id    | int    | 是       | 模型 ID        |
+  | data        | object | 是       | 預測數據       |
+
+- **示例請求**
+  ```json
+  {
+    "model_id": 1,
+    "data": {
+      "feature1": 1.5,
+      "feature2": 3.2
+    }
+  }
+  ```
+
+- **示例響應**
+  ```json
+  {
+    "prediction": 10.5
+  }
+  ```
+
+## 預測記錄端點
+
+### 獲取預測記錄
+
+- **URL**
+  ```
+  GET /vel/v1/predictions
+  ```
+
+- **參數**
+  | 參數名稱    | 類型   | 是否必需 | 描述                |
+  | ----------- | ------ | -------- | ------------------- |
+  | page        | int    | 否       | 當前頁碼            |
+  | per_page    | int    | 否       | 每頁顯示的記錄數量  |
+
+- **示例請求**
+  ```
+  GET /vel/v1/predictions?page=1&per_page=10
+  ```
+
+- **示例響應**
+  ```json
+  {
+    "predictions": [
+      {
+        "id": 1,
+        "model_id": 1,
+        "data": {
+          "feature1": 1.5,
+          "feature2": 3.2
+        },
+        "prediction": 10.5,
+        "created_at": "2025-02-24T03:00:00Z"
+      }
+    ],
+    "total": 1,
+    "pages": 1
+  }
+  ```
+
+## 錯誤處理
+
+預測器 API 可能返回以下錯誤：
+
+- **400 Bad Request**：請求參數不正確
+- **401 Unauthorized**：未經授權的請求
+- **404 Not Found**：資源未找到
+- **500 Internal Server Error**：服務器內部錯誤
+
+>>>>>>> b29bd98ae45cfc679c1a703fb927eca56e44b11c
 請根據錯誤代碼和消息進行相應處理。

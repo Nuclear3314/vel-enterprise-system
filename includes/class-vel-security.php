@@ -11,13 +11,17 @@
  * @created     2025-02-26 12:21:08
  */
 
+<<<<<<< HEAD
  namespace VEL\Includes;
 
+=======
+>>>>>>> b29bd98ae45cfc679c1a703fb927eca56e44b11c
 if (!defined('ABSPATH')) {
     exit('Direct access not allowed.');
 }
 
 class VEL_Security {
+<<<<<<< HEAD
      /**
      * 系統版本
      */
@@ -61,6 +65,8 @@ class VEL_Security {
         'AGGRESSIVE' => 'aggressive'
     ];
  
+=======
+>>>>>>> b29bd98ae45cfc679c1a703fb927eca56e44b11c
     /**
      * IDS 實例
      *
@@ -99,6 +105,7 @@ class VEL_Security {
     }
 
     /**
+<<<<<<< HEAD
      * 防禦系統等級常量
      */
     const DEFENSE_LEVELS = [
@@ -112,6 +119,8 @@ class VEL_Security {
     ];
 
     /**
+=======
+>>>>>>> b29bd98ae45cfc679c1a703fb927eca56e44b11c
      * 初始化防禦網路
      */
     private function init_defense_network() {
@@ -119,6 +128,7 @@ class VEL_Security {
         $this->setup_defense_channels();
     }
 
+<<<<<<< HEAD
     private function get_blocked_ips(): array {
         return get_option('vel_blocked_ips', array());
     }
@@ -135,6 +145,8 @@ class VEL_Security {
         // ...existing code...
     }
 
+=======
+>>>>>>> b29bd98ae45cfc679c1a703fb927eca56e44b11c
     /**
      * 處理攻擊事件
      *
@@ -164,6 +176,7 @@ class VEL_Security {
         return $defense_result;
     }
 
+<<<<<<< HEAD
     private function handle_level_seven_threat($attack_data) {
         $this->logger->log('security', 'Level 7 threat detected!', Logger::CRITICAL, $attack_data);
         
@@ -465,6 +478,8 @@ class VEL_Security {
         return true;
     }
 
+=======
+>>>>>>> b29bd98ae45cfc679c1a703fb927eca56e44b11c
 /**
  * 獲取註冊的子站點列表
  *

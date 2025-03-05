@@ -12,6 +12,7 @@ lass VEL_IDS {
         'AVENGER'    => 'legal_countermeasure'    // 法律反制
     );
 
+<<<<<<< HEAD
     /**
      * 響應級別常量
      */
@@ -110,6 +111,8 @@ lass VEL_IDS {
         }
     }
 
+=======
+>>>>>>> b29bd98ae45cfc679c1a703fb927eca56e44b11c
 /**
  * 協調聯合反擊系統
  */
@@ -124,6 +127,7 @@ private function coordinate_joint_countermeasure($attack_data) {
     return $this->execute_joint_countermeasure($joint_attack_plan);
 }
 
+<<<<<<< HEAD
 private function monitor_system_performance() {
     return [
         'memory_usage' => [
@@ -191,6 +195,8 @@ private function enhance_ai_defense_system() {
     }
 }
 
+=======
+>>>>>>> b29bd98ae45cfc679c1a703fb927eca56e44b11c
 /**
  * 分配聯合反擊角色
  */
@@ -596,4 +602,8 @@ private function global_coordination_mechanism() {
             'recommended_actions' => $this->get_recommended_actions(),
             'system_status' => $this->get_system_status()
         );
+<<<<<<< HEAD
     }
+=======
+    }
+>>>>>>> b29bd98ae45cfc679c1a703fb927eca56e44b11c

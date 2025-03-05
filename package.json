@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {
     "name": "vel-enterprise-system",
     "version": "1.0.0",
@@ -36,4 +37,44 @@ private function register_ai_content_routes() {
             'permission_callback' => array($this, 'check_ai_permissions')
         )
     ));
+=======
+{
+    "name": "vel-enterprise-system",
+    "version": "1.0.0",
+    "description": "VEL Enterprise System - Advanced WordPress Plugin for Business Management",
+    "author": "Nuclear3314",
+    "license": "GPL-2.0-or-later",
+    "private": true,
+    "dependencies": {
+        "@wordpress/scripts": "^26.0.0",
+        "chart.js": "^4.4.0",
+        "react": "^18.2.0",
+        "react-dom": "^18.2.0"
+    },
+    "scripts": {
+        "build": "wp-scripts build",
+        "start": "wp-scripts start",
+        "test": "wp-scripts test-unit-js"
+    }
+}
+<?php
+const MEMBER_ROLES = [
+    'SUPER_ADMIN' => 'super_admin',
+    'SITE_OWNER' => 'site_owner',
+    'SITE_ADMIN' => 'site_admin',
+    'EXECUTIVE' => 'executive',
+    'MANAGER' => 'manager',
+    'SALES' => 'sales',
+    'GENERAL_MEMBER' => 'general_member'
+];
+
+private function register_ai_content_routes() {
+    register_rest_route($this->namespace, '/ai/content/generate', array(
+        array(
+            'methods' => WP_REST_Server::CREATABLE,
+            'callback' => array($this, 'generate_ai_content'),
+            'permission_callback' => array($this, 'check_ai_permissions')
+        )
+    ));
+>>>>>>> b29bd98ae45cfc679c1a703fb927eca56e44b11c
 }

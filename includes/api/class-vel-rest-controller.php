@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?php
 /**
  * REST API Controller Class
@@ -99,11 +100,56 @@ class VEL_REST_Controller extends WP_REST_Controller {
      * 註冊路由
      */
     public function register_routes() {
+=======
+ㄏBRIEL', 'RAPHAEL', 'URIEL',
+        'ABADDON', 'SAMAEL', 'AVENGER'
+    );
+
+    /**
+     * API 實例
+     */
+    private $api;
+
+    /**
+     * IDS 實例
+     */
+    private $ids;
+
+    /**
+     * 命名空間
+     */
+    protected $namespace = 'vel/v1';
+
+    /**
+     * 構造函數
+     */
+    public function __construct() {
+        $this->api = new API();
+        $this->ids = new VEL_IDS();
+        add_action('rest_api_init', array($this, 'register_routes'));
+    }
+    
+    /**
+     * Constructor
+     */
+    public function __construct() {
+        $this->namespace = VEL_API_NAMESPACE;
+        $this->rest_base = 'v1';
+        $this->api = new API();
+    }
+
+    /**
+     * Register routes
+     */
+    public function register_routes() {
+        // 合併兩個 register_routes 方法的所有端點註冊
+>>>>>>> b29bd98ae45cfc679c1a703fb927eca56e44b11c
         $this->register_prediction_routes();
         $this->register_model_routes();
         $this->register_analysis_routes();
         $this->register_security_routes();
         $this->register_defense_routes();
+<<<<<<< HEAD
         $this->register_metrics_routes();
         $this->register_settings_routes();
         $this->register_ai_content_routes();          
@@ -154,10 +200,15 @@ private function register_advanced_defense_routes() {
         )
     ));
 }
+=======
+    }
+
+>>>>>>> b29bd98ae45cfc679c1a703fb927eca56e44b11c
     /**
      * 註冊預測相關路由
      */
     private function register_prediction_routes() {
+<<<<<<< HEAD
         register_rest_route($this->namespace, '/predictions', array(
             array(
                 'methods' => WP_REST_Server::READABLE,
@@ -589,3 +640,8 @@ private function register_advanced_defense_routes() {
         return new WP_REST_Response($data, $status);
     }
 }
+=======
+        // 原有的預測相關端點註冊代碼
+    }
+}
+>>>>>>> b29bd98ae45cfc679c1a703fb927eca56e44b11c

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /**
  * VEL Enterprise System Public Scripts
  *
@@ -173,4 +174,181 @@
         VELPublic.init();
     });
 
+=======
+/**
+ * VEL Enterprise System Public Scripts
+ *
+ * @package VEL_Enterprise_System
+ * @since 1.0.0
+ * @version 1.0.0
+ * @author Nuclear3314
+ * @copyright 2025 Nuclear3314
+ */
+
+/* global jQuery, velPublicData, Chart */
+(function($) {
+    'use strict';
+
+    const VELPublic = {
+        /**
+         * 初始化
+         */
+        init: function() {
+            this.initCharts();
+            this.loadAnalytics();
+        },
+
+        /**
+         * 初始化圖表
+         */
+        initCharts: function() {
+            // 準確率趨勢圖
+            this.accuracyTrendChart = new Chart($('#vel-accuracy-trend-chart'), {
+                type: 'line',
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100,
+                            ticks: {
+                                callback: value => value + '%'
+                            }
+                        }
+                    },
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: context => context.parsed.y.toFixed(2) + '%'
+                            }
+                        }
+                    }
+                }
+            });
+
+            // 模型性能對比圖
+            this.modelPerformanceChart = new Chart($('#vel-model-performance-chart'), {
+                type: 'bar',
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+
+            // 預測分佈圖
+            this.predictionDistributionChart = new Chart($('#vel-prediction-distribution-chart'), {
+                type: 'pie',
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'right'
+                        }
+                    }
+                }
+            });
+        },
+
+        /**
+         * 加載分析數據
+         */
+        loadAnalytics: function() {
+            $.ajax({
+                url: `${velPublicData.apiBase}/metrics`,
+                success: (response) => {
+                    this.updateCharts(response);
+                },
+                error: () => {
+                    alert(velPublicData.i18n.error);
+                }
+            });
+        },
+
+        /**
+         * 更新圖表
+         *
+         * @param {Object} data 分析數據
+         */
+        updateCharts: function(data) {
+            // 更新準確率趨勢圖
+            this.accuracyTrendChart.data = {
+                labels: data.prediction_metrics.map(item => item.date),
+                datasets: [{
+                    label: '預測準確率',
+                    data: data.prediction_metrics.map(item => item.avg_accuracy * 100),
+                    borderColor: 'rgb(75, 192, 192)',
+                    tension: 0.1
+                }]
+            };
+            this.accuracyTrendChart.update();
+
+            // 更新模型性能對比圖
+            this.modelPerformanceChart.data = {
+                labels: data.model_metrics.map(item => item.name),
+                datasets: [{
+                    label: '性能分數',
+                    data: data.model_metrics.map(item => item.performance_metrics.score),
+                    backgroundColor: 'rgb(54, 162, 235)'
+                }]
+            };
+            this.modelPerformanceChart.update();
+
+            // 更新預測分佈圖
+            const distributionData = this.calculatePredictionDistribution(data.prediction_metrics);
+            this.predictionDistributionChart.data = {
+                labels: Object.keys(distributionData),
+                datasets: [{
+                    data: Object.values(distributionData),
+                    backgroundColor: [
+                        'rgb(255, 99, 132)',
+                        'rgb(54, 162, 235)',
+                        'rgb(255, 206, 86)',
+                        'rgb(75, 192, 192)'
+                    ]
+                }]
+            };
+            this.predictionDistributionChart.update();
+        },
+
+        /**
+         * 計算預測分佈
+         *
+         * @param {Array} metrics 預測指標數據
+         * @return {Object}
+         */
+        calculatePredictionDistribution: function(metrics) {
+            const distribution = {
+                '高準確度 (>90%)': 0,
+                '中等準確度 (70-90%)': 0,
+                '低準確度 (50-70%)': 0,
+                '不可靠 (<50%)': 0
+            };
+
+            metrics.forEach(item => {
+                const accuracy = item.avg_accuracy * 100;
+                if (accuracy > 90) {
+                    distribution['高準確度 (>90%)']++;
+                } else if (accuracy > 70) {
+                    distribution['中等準確度 (70-90%)']++;
+                } else if (accuracy > 50) {
+                    distribution['低準確度 (50-70%)']++;
+                } else {
+                    distribution['不可靠 (<50%)']++;
+                }
+            });
+
+            return distribution;
+        }
+    };
+
+    // 文檔加載完成後初始化
+    $(document).ready(function() {
+        VELPublic.init();
+    });
+
+>>>>>>> b29bd98ae45cfc679c1a703fb927eca56e44b11c
 })(jQuery);

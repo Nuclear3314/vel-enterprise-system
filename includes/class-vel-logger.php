@@ -11,10 +11,13 @@
  * @created     2025-02-26 12:31:33
  */
 
+<<<<<<< HEAD
 namespace VEL\Includes;
 
 use ZipArchive;
 
+=======
+>>>>>>> b29bd98ae45cfc679c1a703fb927eca56e44b11c
 if (!defined('ABSPATH')) {
     exit('Direct access not allowed.');
 }
@@ -34,6 +37,7 @@ class VEL_Logger {
      *
      * @var string
      */
+<<<<<<< HEAD
     private string $log_dir;
 
     /**
@@ -48,25 +52,55 @@ class VEL_Logger {
         self::ERROR => '0;31',    // 紅色
         self::CRITICAL => '1;31'   // 亮紅色
     ];
+=======
+    private $log_dir;
+>>>>>>> b29bd98ae45cfc679c1a703fb927eca56e44b11c
 
     /**
      * 日誌檔案映射
      *
+<<<<<<< HEAD
      * @var array<string, string>
      */
     private array $log_files = [
+=======
+     * @var array
+     */
+    private $log_files = array(
+>>>>>>> b29bd98ae45cfc679c1a703fb927eca56e44b11c
         'security' => 'security.log',
         'api' => 'api.log',
         'performance' => 'performance.log',
         'error' => 'error.log',
         'debug' => 'debug.log'
+<<<<<<< HEAD
     ];
+=======
+    );
+
+    /**
+     * 日誌等級映射
+     *
+     * @var array
+     */
+    private $level_colors = array(
+        self::DEBUG => '0;37', // 灰色
+        self::INFO => '0;32',  // 綠色
+        self::WARNING => '1;33', // 黃色
+        self::ERROR => '0;31',   // 紅色
+        self::CRITICAL => '1;31' // 亮紅色
+    );
+>>>>>>> b29bd98ae45cfc679c1a703fb927eca56e44b11c
 
     /**
      * 構造函數
      */
     public function __construct() {
+<<<<<<< HEAD
         $this->log_dir = WP_CONTENT_DIR . '/vel-enterprise/logs';
+=======
+        $this->log_dir = WP_CONTENT_DIR . '/vel-logs';
+>>>>>>> b29bd98ae45cfc679c1a703fb927eca56e44b11c
         $this->ensure_log_directory();
         $this->rotate_logs();
     }
@@ -81,6 +115,7 @@ class VEL_Logger {
      * @return bool
      */
     public function log($type, $message, $level = self::INFO, $context = array()) {
+<<<<<<< HEAD
         if (!is_dir($this->log_dir)) {
             wp_mkdir_p($this->log_dir);
         }
@@ -91,6 +126,8 @@ class VEL_Logger {
 
         error_log($log_entry, 3, $log_file);
 
+=======
+>>>>>>> b29bd98ae45cfc679c1a703fb927eca56e44b11c
         if (!$this->validate_type($type)) {
             return false;
         }
@@ -133,6 +170,7 @@ class VEL_Logger {
     }
 
     /**
+<<<<<<< HEAD
      * 獲取日誌檔案大小限制
      *
      * @return int 檔案大小（位元組）
@@ -151,6 +189,8 @@ class VEL_Logger {
     }
 
     /**
+=======
+>>>>>>> b29bd98ae45cfc679c1a703fb927eca56e44b11c
      * 格式化日誌條目
      *
      * @param string $message
@@ -180,6 +220,7 @@ class VEL_Logger {
         return $entry;
     }
 
+<<<<<<< HEAD
     private function lock_log_file($handle): bool 
     {
         $tries = 3;
@@ -229,6 +270,8 @@ class VEL_Logger {
         return true;
     }
 
+=======
+>>>>>>> b29bd98ae45cfc679c1a703fb927eca56e44b11c
     /**
      * 確保日誌目錄存在
      */
@@ -398,6 +441,7 @@ class VEL_Logger {
 
         return $stats;
     }
+<<<<<<< HEAD
 
     private function export_to_csv(array $logs): string 
     {
@@ -426,3 +470,6 @@ class VEL_Logger {
         return $csv;
     }
 }
+=======
+}
+>>>>>>> b29bd98ae45cfc679c1a703fb927eca56e44b11c
